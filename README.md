@@ -1,4 +1,4 @@
-# Sprint_6
+# Sprint_7
 ##  <h>1. Установите зависимости:</h>
 
 > pip install -r requirements.txt</h>
