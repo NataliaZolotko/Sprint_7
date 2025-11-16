@@ -11,17 +11,10 @@ import allure
 
 class TestLoginCourier:
     @allure.title("Успешная авторизация курьера")
-    @allure.description("Авторизация по шаблонному логину и паролю, проверка статуса ответа и тела ответа") 
-    def test_auth_courier(self):
-        data = DataAuthCourier.Auth_Courier_Body
-        response = CreateCourierMethod.auth_courier(data)
-        assert response.status_code == 200 and response.json() == {id: 12345}
-    
-    @allure.title("Успешная авторизация курьера")
     @allure.description("Авторизация по логину и паролю, проверка статуса ответа") 
     def test_auth_new_courier(self):
         courier_data = DataCreatNewCourier.CreatNewCourier
-        response = CreateCourierMethod.createcourier(courier_data)
+        response = CreateCourierMethod.create_courier(courier_data)
         data = {
             "login": "testqwert",
             "password": "12345"

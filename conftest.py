@@ -1,37 +1,45 @@
 import pytest
 import requests
+import random
 from faker import Faker
 from courier_method import CreateCourierMethod
-from generators import generator_create_courier_body
 
 
-class TestCourierCreation:
+@pytest.fixture()
+def courier_data():
+    """Фикстура подготовки и очистки данных курьера."""
+    data = register_new_courier_and_return_login_password()
+    yield data  
+    # Постусловие: пытаемся удалить курьера после выполнения теста
+    courier_id = get_courier_id(data["login"], data["password"])
+    if courier_id:
+        delete_courier(courier_id)
+                     
 
-    @pytest.fixture(autouse=False)
-    def courier_data(self):
-        """Фикстура подготовки и очистки данных курьера."""
-        data = register_new_courier_and_return_login_password()
-        yield data  
-        # Постусловие: пытаемся удалить курьера после выполнения теста
+@pytest.fixture
+def temporary_courier():
+    """Создаем временного курьера и автоматически удаляем после теста"""
+    data = {
+        "login": f"test_courier_{random.randint(1000, 9999)}",
+        "password": "password123",
+        "firstName": "TestCourier"
+    }
+    try:
         courier_id = get_courier_id(data["login"], data["password"])
         if courier_id:
             delete_courier(courier_id)
-   
-    @pytest.fixture
-    def cleanup_courier(login, password):
-        """Очистка: удаляет курьера если он существует"""
-        courier_id = get_courier_id(login, password)
+    except:
+        pass
+     
+    yield data
+     
+    try:
+        courier_id = get_courier_id(data["login"], data["password"])
         if courier_id:
             delete_courier(courier_id)
-        
-                
-    @pytest.fixture
-    def unique_courier_data(self):
-        """Фикстура для создания уникальных данных курьера."""
-        data = generator_create_courier_body()
-        yield data
-        # Постусловие: удаляем созданного курьера
-        cleanup_courier(data["login"], data["password"])
+    except:
+        pass
+  
 
-
-    
+     
+            

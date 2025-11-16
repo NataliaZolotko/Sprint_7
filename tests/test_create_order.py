@@ -10,7 +10,7 @@ class TestCreateOrder:
         ["BLACK"],
         ["GRAY"], 
         ["BLACK", "GRAY"],
-        []
+        ['']
     ])
     def test_create_order_with_different_colors(self, color_option):
         order_data = DataCreateOrder.Create_Order_Body

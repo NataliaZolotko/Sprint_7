@@ -4,7 +4,7 @@ from data import Url
 from order_method import OrderMethods
 import allure
 
-class TestCreateOrder:
+class TestListOrder:
     @allure.title("Проверка, что в тело ответа возвращается список заказов.")
     def test_list_order(self):
         response = OrderMethods.get_order_list()
